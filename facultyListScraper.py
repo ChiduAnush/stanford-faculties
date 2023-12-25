@@ -7,8 +7,11 @@ import time
 
 
 def scrape_faculty_data(driver, faculty_link):
+    print("enter function")
     driver.execute_script("window.open('', '_blank');")  # Open a new tab
     driver.switch_to.window(driver.window_handles[1])  # Switch to the new tab
+
+    print("switched tab")
     driver.get(faculty_link)
 
     time.sleep(2)
@@ -16,7 +19,10 @@ def scrape_faculty_data(driver, faculty_link):
     faculty_email = driver.find_element(
         By.XPATH, '//*[@id="main_tabs_content_bio"]/div/div[2]/div[1]/div[1]/a'
     ).text
-    faculty_data["Email"] = faculty_email if faculty_email else "N/A"
+
+    print("closed tab")
+    driver.close()  # Close the current tab
+    driver.switch_to.window(driver.window_handles[0])  # Switch back to the original tab
 
     return faculty_email
 
@@ -63,6 +69,7 @@ for i in range(3, 74):
         print("")
 
         try:
+            print("enter outer try")
             faculty_name = driver.find_element(By.XPATH, xpath).text
             faculty_link = driver.find_element(By.XPATH, xpath).get_attribute("href")
             # faculty_data_list.append(faculty_link)
@@ -72,20 +79,19 @@ for i in range(3, 74):
 
             # print("")
 
-            faculty_data = {}
-
-            faculty_data["Name"] = faculty_name
-            faculty_data["Link"] = faculty_link
-
             try:
-                faculty_data["Email"] = scrape_faculty_data(driver, faculty_link)
+                print("enter inner try")
+                faculty_email = scrape_faculty_data(driver, faculty_link)
             except:
+                print("enter inner except")
                 print("")
                 print("ERROR WITH EMAIL")
-                faculty_data["Email"] = "N/A"
+                faculty_email = "N/A"
                 print("")
+                continue
 
         except Exception as e:
+            print("enter outer except")
             modified_xpath = modified_xpath_pattern.format(i, j)
             print("")
             print(modified_xpath)
@@ -95,10 +101,12 @@ for i in range(3, 74):
             faculty_email = "N/A"
             print(faculty_name)
 
-            faculty_data = {}
-            faculty_data["Name"] = faculty_name
-            faculty_data["Link"] = faculty_link
-            faculty_data["Email"] = faculty_email
+        print("Good work bro")
+        faculty_data = {}
+
+        faculty_data["Name"] = faculty_name
+        faculty_data["Link"] = faculty_link
+        faculty_data["Email"] = faculty_email
 
         faculty_data_list.append(faculty_data)
 
