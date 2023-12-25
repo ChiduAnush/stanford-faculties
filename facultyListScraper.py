@@ -61,7 +61,7 @@ modified_xpath_pattern = (
 
 
 csv_file_path = 'faculty_data.csv'
-headers = ['Name', 'Link', 'Email']
+headers = ['Name', 'Education', 'Link', 'Email']
 
 with open(csv_file_path, 'w', newline='') as csv_file:
     writer = csv.DictWriter(csv_file, fieldnames=headers)
