@@ -6,6 +6,25 @@ import csv
 import time
 
 
+
+def scrape_faculty_data(driver, faculty_link):
+    driver.execute_script("window.open('', '_blank');") # Open a new tab
+    driver.switch_to.window(driver.window_handles[1])  # Switch to the new tab
+    driver.get(faculty_link)
+
+    time.sleep(2)
+
+    faculty_email = driver.find_element(By.XPATH, '//*[@id="main_tabs_content_bio"]/div/div[2]/div[1]/div[1]/a').text
+    faculty_data["Email"] = faculty_email if faculty_email else "N/A"
+
+
+
+
+
+
+    return faculty_email
+# -----------------------------------------------------------------------------
+
 driver = webdriver.Chrome()
 
 url = "https://med.stanford.edu/neurology/faculty/overview.html"
@@ -46,8 +65,8 @@ for i in range(3, 74):
         print("")
 
         try:
-            faculty_link = driver.find_element(By.XPATH, xpath).get_attribute("href")
             faculty_name = driver.find_element(By.XPATH, xpath).text
+            faculty_link = driver.find_element(By.XPATH, xpath).get_attribute("href")
             # faculty_data_list.append(faculty_link)
             # print(faculty_name)
             # print(faculty_link)
@@ -56,8 +75,10 @@ for i in range(3, 74):
             # print("")
 
             faculty_data = {}
+
             faculty_data["Name"] = faculty_name
             faculty_data["Link"] = faculty_link
+            faculty_data["Email"] = scrape_faculty_data(driver, faculty_link)
 
         except Exception as e:
             modified_xpath = modified_xpath_pattern.format(i, j)
@@ -66,11 +87,13 @@ for i in range(3, 74):
             print("")
             faculty_name = driver.find_element(By.XPATH, modified_xpath).text
             faculty_link = "N/A"
+            faculty_email = "N/A"
             print(faculty_name)
 
             faculty_data = {}
             faculty_data["Name"] = faculty_name
             faculty_data["Link"] = faculty_link
+            faculty_data["Email"] = faculty_email
 
         faculty_data_list.append(faculty_data)
 
@@ -104,3 +127,12 @@ print(faculty_data_list)
 
 # 73, 1
 # ---
+
+
+
+
+# for email:
+# //*[@id="main_tabs_content_bio"]/div/div[2]/div[1]/div[1]/a
+
+# for personal website?:
+# //*[@id="main_tabs_content_bio"]/div/div[2]/div[2]/ul/li[2]/a
