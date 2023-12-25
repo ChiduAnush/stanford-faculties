@@ -54,71 +54,81 @@ modified_xpath_pattern = (
 )
 
 
-for i in range(3, 74):
-    for j in range(1, 4):
-        # for irregular endings in trio.
-        if i == 49 and j == 3:
-            continue
-        if i == 53 and j == 3:
-            continue
-        if i == 63 and (j == 2 or j == 3):
-            continue
-        if i == 70 and (j == 2 or j == 3):
-            continue
-        if i == 73 and (j == 2 or j == 3):
-            continue
+csv_file_path = 'faculty_data.csv'
+headers = ['Name', 'Link', 'Email']
 
-        # for headings
-        if i == 50 or i == 54 or i == 64 or i == 71:
-            continue
+with open(csv_file_path, 'w', newline='') as csv_file:
+    writer = csv.DictWriter(csv_file, fieldnames=headers)
+    writer.writeheader()
 
-        xpath = xpath_pattern.format(i, j)
-        print(i, j)
-        print("")
 
-        try:
-            print("enter outer try")
-            faculty_name = driver.find_element(By.XPATH, xpath).text
-            faculty_link = driver.find_element(By.XPATH, xpath).get_attribute("href")
-            # faculty_data_list.append(faculty_link)
-            # print(faculty_name)
-            # print(faculty_link)
-            # print(xpath)
+    for i in range(3, 74):
+        for j in range(1, 4):
+            # for irregular endings in trio.
+            if i == 49 and j == 3:
+                continue
+            if i == 53 and j == 3:
+                continue
+            if i == 63 and (j == 2 or j == 3):
+                continue
+            if i == 70 and (j == 2 or j == 3):
+                continue
+            if i == 73 and (j == 2 or j == 3):
+                continue
 
-            # print("")
+            # for headings
+            if i == 50 or i == 54 or i == 64 or i == 71:
+                continue
 
-            faculty_email = scrape_faculty_data(driver, faculty_link)
-
-            # try:
-            #     print("enter inner try")
-            #     faculty_email = scrape_faculty_data(driver, faculty_link)
-            # except:
-            #     print("enter inner except")
-            #     print("")
-            #     print("ERROR WITH EMAIL")
-            #     faculty_email = "N/A"
-            #     print("")
-            #     continue
-
-        except Exception as e:
-            print("enter outer except")
-            modified_xpath = modified_xpath_pattern.format(i, j)
+            xpath = xpath_pattern.format(i, j)
+            print(i, j)
             print("")
-            print(modified_xpath)
-            print("")
-            faculty_name = driver.find_element(By.XPATH, modified_xpath).text
-            faculty_link = "N/A"
-            faculty_email = "N/A"
-            print(faculty_name)
 
-        print("Good work bro")
-        faculty_data = {}
+            try:
+                print("enter outer try")
+                faculty_name = driver.find_element(By.XPATH, xpath).text
+                faculty_link = driver.find_element(By.XPATH, xpath).get_attribute("href")
+                # faculty_data_list.append(faculty_link)
+                # print(faculty_name)
+                # print(faculty_link)
+                # print(xpath)
 
-        faculty_data["Name"] = faculty_name
-        faculty_data["Link"] = faculty_link
-        faculty_data["Email"] = faculty_email
+                # print("")
 
-        faculty_data_list.append(faculty_data)
+                faculty_email = scrape_faculty_data(driver, faculty_link)
+
+                # try:
+                #     print("enter inner try")
+                #     faculty_email = scrape_faculty_data(driver, faculty_link)
+                # except:
+                #     print("enter inner except")
+                #     print("")
+                #     print("ERROR WITH EMAIL")
+                #     faculty_email = "N/A"
+                #     print("")
+                #     continue
+
+            except Exception as e:
+                print("enter outer except")
+                modified_xpath = modified_xpath_pattern.format(i, j)
+                print("")
+                print(modified_xpath)
+                print("")
+                faculty_name = driver.find_element(By.XPATH, modified_xpath).text
+                faculty_link = "N/A"
+                faculty_email = "N/A"
+                print(faculty_name)
+
+            print("Good work bro")
+            faculty_data = {}
+
+            faculty_data["Name"] = faculty_name
+            faculty_data["Link"] = faculty_link
+            faculty_data["Email"] = faculty_email
+
+            faculty_data_list.append(faculty_data)
+
+            writer.writerow(faculty_data)
 
 
 for item in faculty_data_list:
@@ -161,15 +171,15 @@ for item in faculty_data_list:
 
 
 
-csv_file_path = 'faculty_data.csv'
-headers = faculty_data_list[0].keys()
+# csv_file_path = 'faculty_data.csv'
+# headers = faculty_data_list[0].keys()
 
-with open(csv_file_path, 'w', newline='') as csv_file:
-    writer = csv.DictWriter(csv_file, fieldnames=headers)
+# with open(csv_file_path, 'w', newline='') as csv_file:
+#     writer = csv.DictWriter(csv_file, fieldnames=headers)
 
-    # Write the header
-    writer.writeheader()
+#     # Write the header
+#     writer.writeheader()
 
-    # Write the data
-    for row in faculty_data_list:
-        writer.writerow(row)
+#     # Write the data
+#     for row in faculty_data_list:
+#         writer.writerow(row)
