@@ -4,6 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 import csv
 import time
+from selenium.webdriver.chrome.options import Options
 
 
 def scrape_faculty_data(driver, faculty_link):
@@ -37,7 +38,12 @@ def scrape_faculty_data(driver, faculty_link):
 
 # -----------------------------------------------------------------------------
 
-driver = webdriver.Chrome()
+
+chrome_options = Options()
+chrome_options.add_argument('--headless')  # Run Chrome in headless mode
+
+# Create the WebDriver with Chrome options
+driver = webdriver.Chrome(options=chrome_options)
 
 url = "https://med.stanford.edu/neurology/faculty/overview.html"
 driver.get(url)
@@ -86,7 +92,8 @@ with open(csv_file_path, 'w', newline='') as csv_file:
 
             try:
                 print("enter outer try")
-                faculty_name = driver.find_element(By.XPATH, xpath).text
+                faculty_name_edu = driver.find_element(By.XPATH, xpath).text
+                faculty_name, faculty_edu = map(str.strip, faculty_name_edu.split(',', 1))
                 faculty_link = driver.find_element(By.XPATH, xpath).get_attribute("href")
                 # faculty_data_list.append(faculty_link)
                 # print(faculty_name)
@@ -114,7 +121,8 @@ with open(csv_file_path, 'w', newline='') as csv_file:
                 print("")
                 print(modified_xpath)
                 print("")
-                faculty_name = driver.find_element(By.XPATH, modified_xpath).text
+                faculty_name_edu = driver.find_element(By.XPATH, modified_xpath).text
+                faculty_name, faculty_edu = map(str.strip, faculty_name_edu.split(',', 1))
                 faculty_link = "N/A"
                 faculty_email = "N/A"
                 print(faculty_name)
@@ -123,12 +131,14 @@ with open(csv_file_path, 'w', newline='') as csv_file:
             faculty_data = {}
 
             faculty_data["Name"] = faculty_name
+            faculty_data["Education"] = faculty_edu
             faculty_data["Link"] = faculty_link
             faculty_data["Email"] = faculty_email
 
-            faculty_data_list.append(faculty_data)
+            # faculty_data_list.append(faculty_data)
 
             writer.writerow(faculty_data)
+            print(faculty_data)
 
 
 for item in faculty_data_list:
