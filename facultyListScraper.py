@@ -6,23 +6,21 @@ import csv
 import time
 
 
-
 def scrape_faculty_data(driver, faculty_link):
-    driver.execute_script("window.open('', '_blank');") # Open a new tab
+    driver.execute_script("window.open('', '_blank');")  # Open a new tab
     driver.switch_to.window(driver.window_handles[1])  # Switch to the new tab
     driver.get(faculty_link)
 
     time.sleep(2)
 
-    faculty_email = driver.find_element(By.XPATH, '//*[@id="main_tabs_content_bio"]/div/div[2]/div[1]/div[1]/a').text
+    faculty_email = driver.find_element(
+        By.XPATH, '//*[@id="main_tabs_content_bio"]/div/div[2]/div[1]/div[1]/a'
+    ).text
     faculty_data["Email"] = faculty_email if faculty_email else "N/A"
 
-
-
-
-
-
     return faculty_email
+
+
 # -----------------------------------------------------------------------------
 
 driver = webdriver.Chrome()
@@ -87,7 +85,6 @@ for i in range(3, 74):
                 faculty_data["Email"] = "N/A"
                 print("")
 
-
         except Exception as e:
             modified_xpath = modified_xpath_pattern.format(i, j)
             print("")
@@ -106,7 +103,8 @@ for i in range(3, 74):
         faculty_data_list.append(faculty_data)
 
 
-print(faculty_data_list)
+for item in faculty_data_list:
+    print(item)
 
 
 # 49, 2
@@ -135,8 +133,6 @@ print(faculty_data_list)
 
 # 73, 1
 # ---
-
-
 
 
 # for email:
