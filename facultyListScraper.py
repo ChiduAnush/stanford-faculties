@@ -78,7 +78,15 @@ for i in range(3, 74):
 
             faculty_data["Name"] = faculty_name
             faculty_data["Link"] = faculty_link
-            faculty_data["Email"] = scrape_faculty_data(driver, faculty_link)
+
+            try:
+                faculty_data["Email"] = scrape_faculty_data(driver, faculty_link)
+            except:
+                print("")
+                print("ERROR WITH EMAIL")
+                faculty_data["Email"] = "N/A"
+                print("")
+
 
         except Exception as e:
             modified_xpath = modified_xpath_pattern.format(i, j)
