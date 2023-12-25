@@ -16,9 +16,17 @@ def scrape_faculty_data(driver, faculty_link):
 
     time.sleep(2)
 
-    faculty_email = driver.find_element(
-        By.XPATH, '//*[@id="main_tabs_content_bio"]/div/div[2]/div[1]/div[1]/a'
-    ).text
+    try:
+        print("enter inner try")
+        faculty_email = driver.find_element(
+            By.XPATH, '//*[@id="main_tabs_content_bio"]/div/div[2]/div[1]/div[1]/a'
+        ).text
+
+    except:
+        print("enter inner except")
+        print("ERROR WITH EMAIL")
+        faculty_email = "N/A"
+        print("")
 
     print("closed tab")
     driver.close()  # Close the current tab
@@ -79,16 +87,18 @@ for i in range(3, 74):
 
             # print("")
 
-            try:
-                print("enter inner try")
-                faculty_email = scrape_faculty_data(driver, faculty_link)
-            except:
-                print("enter inner except")
-                print("")
-                print("ERROR WITH EMAIL")
-                faculty_email = "N/A"
-                print("")
-                continue
+            faculty_email = scrape_faculty_data(driver, faculty_link)
+
+            # try:
+            #     print("enter inner try")
+            #     faculty_email = scrape_faculty_data(driver, faculty_link)
+            # except:
+            #     print("enter inner except")
+            #     print("")
+            #     print("ERROR WITH EMAIL")
+            #     faculty_email = "N/A"
+            #     print("")
+            #     continue
 
         except Exception as e:
             print("enter outer except")
