@@ -23,11 +23,16 @@
 
 
 
+
+
 //*[@id="mainContent"]/div/div[1]/div/div[69]/div/div[3]/div/div/div/div[2]/p/a
 
 //*[@id="mainContent"]/div/div[1]/div/div[70]/div/div[1]/div/div/div/div[2]/p/a
 
 
+//*[@id="mainContent"]/div/div[1]/div/div[72]/div/div[2]/div/div/div/div[2]/p/a
+//*[@id="mainContent"]/div/div[1]/div/div[72]/div/div[3]/div/div/div/div[2]/p/a
+//*[@id="mainContent"]/div/div[1]/div/div[73]/div/div[1]/div/div/div/div[2]/p/a
 -- 
 
 //*[@id="mainContent"]/div/div[1]/div/div[72]/div/div[1]/div/div/div/div[2]/p/text()[1]
@@ -49,3 +54,7 @@
 
 - - - - - - - - -
 //*[@id="mainContent"]/div/div[1]/div/div[3]/div/div[1]/div/div/div/div[2]/p/a
+
+//*[@id="mainContent"]/div/div[1]/div/div[72]/div/div[1]/div/div/div/div[2]/p/a
+//*[@id="mainContent"]/div/div[1]/div/div[72]/div/div[1]/div/div/div/div[2]/p/text()[1]
+//*[@id="mainContent"]/div/div[1]/div/div[30]/div/div[2]/div/div/div/div[2]/p/text()[1]
