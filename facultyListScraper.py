@@ -158,3 +158,18 @@ for item in faculty_data_list:
 
 # for personal website?:
 # //*[@id="main_tabs_content_bio"]/div/div[2]/div[2]/ul/li[2]/a
+
+
+
+csv_file_path = 'faculty_data.csv'
+headers = faculty_data_list[0].keys()
+
+with open(csv_file_path, 'w', newline='') as csv_file:
+    writer = csv.DictWriter(csv_file, fieldnames=headers)
+
+    # Write the header
+    writer.writeheader()
+
+    # Write the data
+    for row in faculty_data_list:
+        writer.writerow(row)
