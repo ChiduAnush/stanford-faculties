@@ -63,12 +63,12 @@ modified_xpath_pattern = (
 csv_file_path = 'faculty_data.csv'
 headers = ['Name', 'Education', 'Link', 'Email']
 
-with open(csv_file_path, 'w', newline='') as csv_file:
+with open(csv_file_path, 'a', newline='') as csv_file:
     writer = csv.DictWriter(csv_file, fieldnames=headers)
-    writer.writeheader()
+    # writer.writeheader()
 
 
-    for i in range(3, 74):
+    for i in range(72, 74):
         for j in range(1, 4):
             # for irregular endings in trio.
             if i == 49 and j == 3:
@@ -93,7 +93,12 @@ with open(csv_file_path, 'w', newline='') as csv_file:
             try:
                 print("enter outer try")
                 faculty_name_edu = driver.find_element(By.XPATH, xpath).text
-                faculty_name, faculty_edu = map(str.strip, faculty_name_edu.split(',', 1))
+
+                if "," in faculty_name_edu:
+                    faculty_name, faculty_edu = map(str.strip, faculty_name_edu.split(',', 1))
+                else:
+                    faculty_name = faculty_name_edu
+                    faculty_edu = "N/A"
                 faculty_link = driver.find_element(By.XPATH, xpath).get_attribute("href")
                 # faculty_data_list.append(faculty_link)
                 # print(faculty_name)
@@ -118,11 +123,13 @@ with open(csv_file_path, 'w', newline='') as csv_file:
             except Exception as e:
                 print("enter outer except")
                 modified_xpath = modified_xpath_pattern.format(i, j)
-                print("")
                 print(modified_xpath)
-                print("")
                 faculty_name_edu = driver.find_element(By.XPATH, modified_xpath).text
-                faculty_name, faculty_edu = map(str.strip, faculty_name_edu.split(',', 1))
+                if "," in faculty_name_edu:
+                    faculty_name, faculty_edu = map(str.strip, faculty_name_edu.split(',', 1))
+                else:
+                    faculty_name = faculty_name_edu
+                    faculty_edu = "N/A"
                 faculty_link = "N/A"
                 faculty_email = "N/A"
                 print(faculty_name)
