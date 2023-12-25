@@ -46,21 +46,21 @@ time.sleep(2)
 faculty_data_list = []
 
 # Xpath pattern for faculty members
-xpath_pattern = '//*[@id="mainContent"]/div/div[1]/div/div[3]/div/div[{}]/div/div/div/div[2]/p/a'
+xpath_pattern = '//*[@id="mainContent"]/div/div[1]/div/div[{}]/div/div[{}]/div/div/div/div[2]/p/a'
 
-# Find the total number of faculty members (you may need to adjust the range)
-total_faculty_members = 200
+# --------------------------------
 
-for i in range(1, total_faculty_members + 1):
-    xpath = xpath_pattern.format(i)
-    try:
-        faculty_link = driver.find_element(By.XPATH, xpath).get_attribute('href')
-        faculty_data = scrape_faculty_data(driver, faculty_link)
-        faculty_data_list.append(faculty_data)
-    except Exception as e:
-        print(f"Error processing faculty #{i}: {str(e)}")
+for i in range(3, 70):
+    for j in range(1, 4):      
+        xpath = xpath_pattern.format(i)
+        try:
+            faculty_link = driver.find_element(By.XPATH, xpath).get_attribute('href')
+            faculty_data = scrape_faculty_data(driver, faculty_link)
+            faculty_data_list.append(faculty_data)
+        except Exception as e:
+            print(f"Error processing faculty #{i}: {str(e)}")
 
-
+# -------------------------------
 
 # Write data to CSV
 csv_file_path = 'faculty_data.csv'
