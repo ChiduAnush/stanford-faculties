@@ -75,10 +75,10 @@ headers = ['Name', 'Education', 'Link', 'Email', 'Website']
 
 with open(csv_file_path, 'a', newline='') as csv_file:
     writer = csv.DictWriter(csv_file, fieldnames=headers)
-    # writer.writeheader()
+    writer.writeheader()
 
 
-    for i in range(72, 74):
+    for i in range(3, 74):
         for j in range(1, 4):
             # for irregular endings in trio.
             if i == 49 and j == 3:
