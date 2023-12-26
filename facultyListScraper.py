@@ -18,22 +18,32 @@ def scrape_faculty_data(driver, faculty_link):
     time.sleep(2)
 
     try:
-        print("enter inner try")
+        print("enter inner1 try")
         faculty_email = driver.find_element(
             By.XPATH, '//*[@id="main_tabs_content_bio"]/div/div[2]/div[1]/div[1]/a'
         ).text
 
     except:
-        print("enter inner except")
-        print("ERROR WITH EMAIL")
+        print("enter inner1 except")
         faculty_email = "N/A"
         print("")
+
+    try:
+        print("enter inner2 try")
+        faculty_website = driver.find_element(
+            By.XPATH, '//*[@id="main_tabs_content_bio"]/div/div[2]/div/ul/li[2]/a'
+        ).get_attribute("href")
+    except:
+        print("enter inner2 except")
+        faculty_website = "N/A"
+        print("")
+
 
     print("closed tab")
     driver.close()  # Close the current tab
     driver.switch_to.window(driver.window_handles[0])  # Switch back to the original tab
 
-    return faculty_email
+    return faculty_email, faculty_website
 
 
 # -----------------------------------------------------------------------------
@@ -60,8 +70,8 @@ modified_xpath_pattern = (
 )
 
 
-csv_file_path = 'faculty_data.csv'
-headers = ['Name', 'Education', 'Link', 'Email']
+csv_file_path = 'new_faculty_data.csv'
+headers = ['Name', 'Education', 'Link', 'Email', 'Website']
 
 with open(csv_file_path, 'a', newline='') as csv_file:
     writer = csv.DictWriter(csv_file, fieldnames=headers)
@@ -107,7 +117,7 @@ with open(csv_file_path, 'a', newline='') as csv_file:
 
                 # print("")
 
-                faculty_email = scrape_faculty_data(driver, faculty_link)
+                faculty_email, faculty_website = scrape_faculty_data(driver, faculty_link)
 
                 # try:
                 #     print("enter inner try")
@@ -132,6 +142,7 @@ with open(csv_file_path, 'a', newline='') as csv_file:
                     faculty_edu = "N/A"
                 faculty_link = "N/A"
                 faculty_email = "N/A"
+                faculty_website = "N/A"
                 print(faculty_name)
 
             print("Good work bro")
@@ -141,11 +152,12 @@ with open(csv_file_path, 'a', newline='') as csv_file:
             faculty_data["Education"] = faculty_edu
             faculty_data["Link"] = faculty_link
             faculty_data["Email"] = faculty_email
+            faculty_data["Website"] = faculty_website
 
             # faculty_data_list.append(faculty_data)
 
             writer.writerow(faculty_data)
-            print(faculty_data)
+            # print(faculty_data)
 
 
 for item in faculty_data_list:
@@ -186,6 +198,8 @@ for item in faculty_data_list:
 # for personal website?:
 # //*[@id="main_tabs_content_bio"]/div/div[2]/div[2]/ul/li[2]/a
 
+#for website:
+#//*[@id="main_tabs_content_bio"]/div/div[2]/div/ul/li[2]/a
 
 
 # csv_file_path = 'faculty_data.csv'
